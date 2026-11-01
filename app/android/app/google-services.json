@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1036203167129",
+    "project_id": "chindi-90259",
+    "storage_bucket": "chindi-90259.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1036203167129:android:c600b17575e077ec941708",
+        "android_client_info": {
+          "package_name": "com.company.chindi"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBpDJkdPS02OBziX_hIkvPN2DEE1PvR_Dk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
