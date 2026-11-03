@@ -62,5 +62,30 @@ void main() {
       expect(model.isUpdateAvailable, false);
       expect(model.isMandatory, false);
     });
+
+    test('no update popup when app has been updated to match server version', () {
+      final json = {
+        'latestVersion': '1.0.1',
+        'latestVersionCode': 2,
+        'minRequiredVersionCode': 1,
+        'updateUrl': 'https://github.com/Mohit-Sahu1494/chindi/releases/latest',
+        'title': 'Naya Update Uplabdh Hai! 🚀',
+        'releaseNotes': 'Bug fixes',
+        'forceUpdate': false,
+      };
+
+      // When the app is running as version code 2 (e.g. via PackageInfo after update)
+      final model = AppVersionModel.fromJson(
+        json,
+        appVersionCode: 2,
+        appVersionName: '1.0.1',
+      );
+
+      // 2 > 2 is false -> popup should NOT appear after updating
+      expect(model.isUpdateAvailable, false);
+      expect(model.isMandatory, false);
+      expect(model.appVersionCode, 2);
+      expect(model.appVersionName, '1.0.1');
+    });
   });
 }

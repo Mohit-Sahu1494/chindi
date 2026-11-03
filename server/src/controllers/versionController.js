@@ -5,7 +5,7 @@ let currentVersionState = {
   latestVersion: process.env.LATEST_APP_VERSION || '1.0.1',
   latestVersionCode: parseInt(process.env.LATEST_VERSION_CODE || '2', 10),
   minRequiredVersionCode: parseInt(process.env.MIN_REQUIRED_VERSION_CODE || '1', 10),
-  updateUrl: process.env.APP_UPDATE_URL || 'https://github.com/mohit-sahu/chindi/releases/latest',
+  updateUrl: process.env.APP_UPDATE_URL || 'https://github.com/Mohit-Sahu1494/chindi/releases/latest',
   title: process.env.APP_UPDATE_TITLE || 'Naya Update Uplabdh Hai! 🚀',
   releaseNotes:
     process.env.APP_RELEASE_NOTES ||

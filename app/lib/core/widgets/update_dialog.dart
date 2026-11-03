@@ -6,11 +6,13 @@ import 'gold_button.dart';
 class UpdateDialog extends StatelessWidget {
   final AppVersionModel versionInfo;
   final VoidCallback onUpdate;
+  final VoidCallback? onDismiss;
 
   const UpdateDialog({
     super.key,
     required this.versionInfo,
     required this.onUpdate,
+    this.onDismiss,
   });
 
   @override
@@ -91,7 +93,7 @@ class UpdateDialog extends StatelessWidget {
                       border: Border.all(color: AppColors.hairline),
                     ),
                     child: Text(
-                      'Aapka: v${AppVersionModel.currentVersionName}',
+                      'Aapka: v${versionInfo.appVersionName}',
                       style: const TextStyle(color: AppColors.textMuted, fontSize: 11),
                     ),
                   ),
@@ -174,7 +176,10 @@ class UpdateDialog extends StatelessWidget {
               if (!isMandatory) ...[
                 const SizedBox(height: 8),
                 TextButton(
-                  onPressed: () => Navigator.of(context, rootNavigator: true).pop(),
+                  onPressed: () {
+                    onDismiss?.call();
+                    Navigator.of(context, rootNavigator: true).pop();
+                  },
                   child: const Text(
                     'Baad mein karenge (Later)',
                     style: TextStyle(

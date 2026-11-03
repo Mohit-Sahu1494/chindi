@@ -292,7 +292,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                             children: [
                               Expanded(
                                 child: GoldButton(
-                                  label: '+ NAYA GROUP',
+                                  label: 'NAYA GROUP',
                                   icon: Icons.add,
                                   onPressed: () => _openCreateGroup(context),
                                 ),
