@@ -39,6 +39,12 @@ app.use(express.urlencoded({ extended: true }));
 app.use('/api', checkDbConnection);
 
 // API routes
+app.get('/test', (req, res) => {
+  res.json({
+    status: 'ok',
+    message: 'Azure server working'
+  });
+});
 app.use('/api', routes);
 
 // Central error handler
