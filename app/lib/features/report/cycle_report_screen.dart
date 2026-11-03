@@ -290,29 +290,38 @@ class CycleReportScreen extends ConsumerWidget {
                           Expanded(
                             child: Row(
                               children: [
-                                Text(
-                                  isFromMe ? 'Aap' : settlement.from.name,
-                                  style: TextStyle(
-                                    color: isFromMe ? AppColors.negative : AppColors.textIvory,
-                                    fontWeight: FontWeight.w600,
-                                    fontSize: 14,
+                                Flexible(
+                                  child: Text(
+                                    isFromMe ? 'Aap' : settlement.from.name,
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: TextStyle(
+                                      color: isFromMe ? AppColors.negative : AppColors.textIvory,
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 14,
+                                    ),
                                   ),
                                 ),
                                 const Padding(
-                                  padding: EdgeInsets.symmetric(horizontal: 8.0),
+                                  padding: EdgeInsets.symmetric(horizontal: 6.0),
                                   child: Icon(Icons.arrow_forward, size: 14, color: AppColors.gold),
                                 ),
-                                Text(
-                                  isToMe ? 'Aap' : settlement.to.name,
-                                  style: TextStyle(
-                                    color: isToMe ? AppColors.positive : AppColors.textIvory,
-                                    fontWeight: FontWeight.w600,
-                                    fontSize: 14,
+                                Flexible(
+                                  child: Text(
+                                    isToMe ? 'Aap' : settlement.to.name,
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: TextStyle(
+                                      color: isToMe ? AppColors.positive : AppColors.textIvory,
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 14,
+                                    ),
                                   ),
                                 ),
                               ],
                             ),
                           ),
+                          const SizedBox(width: 8),
                           Text(
                             CurrencyFormatter.formatPaise(settlement.amountPaise),
                             style: Theme.of(context).textTheme.titleMedium?.copyWith(

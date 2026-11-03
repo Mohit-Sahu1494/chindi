@@ -113,6 +113,8 @@ class GroupsListScreen extends ConsumerWidget {
                     leading: MonogramAvatar(name: item.group.name, size: 42),
                     title: Text(
                       item.group.name,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
                       style: const TextStyle(
                         color: AppColors.textIvory,
                         fontWeight: FontWeight.w600,
@@ -123,41 +125,53 @@ class GroupsListScreen extends ConsumerWidget {
                       padding: const EdgeInsets.only(top: 4.0),
                       child: Text(
                         'Code: ${item.group.inviteCode} • ${item.daysLeft} din baaki',
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
                         style: const TextStyle(color: AppColors.textDim, fontSize: 12),
                       ),
                     ),
                     trailing: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: [
-                            Text(
-                              CurrencyFormatter.formatPaise(net.abs()),
-                              style: TextStyle(
-                                color: isLena
-                                    ? AppColors.positive
-                                    : isDena
-                                        ? AppColors.negative
-                                        : AppColors.textMuted,
-                                fontWeight: FontWeight.w700,
-                                fontSize: 14,
+                        ConstrainedBox(
+                          constraints: const BoxConstraints(maxWidth: 100),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                              Text(
+                                CurrencyFormatter.formatPaise(net.abs()),
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(
+                                  color: isLena
+                                      ? AppColors.positive
+                                      : isDena
+                                          ? AppColors.negative
+                                          : AppColors.textMuted,
+                                  fontWeight: FontWeight.w700,
+                                  fontSize: 14,
+                                ),
                               ),
-                            ),
-                            Text(
-                              isLena ? 'Lena' : isDena ? 'Dena' : 'Barabar',
-                              style: TextStyle(
-                                color: isLena ? AppColors.positive : isDena ? AppColors.negative : AppColors.textDim,
-                                fontSize: 10,
+                              Text(
+                                isLena ? 'Lena' : isDena ? 'Dena' : 'Barabar',
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(
+                                  color: isLena ? AppColors.positive : isDena ? AppColors.negative : AppColors.textDim,
+                                  fontSize: 10,
+                                ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
-                        const SizedBox(width: 8),
+                        const SizedBox(width: 4),
                         IconButton(
                           icon: const Icon(Icons.info_outline, size: 20, color: AppColors.gold),
                           tooltip: 'Group Details',
+                          visualDensity: VisualDensity.compact,
+                          constraints: const BoxConstraints(),
+                          padding: const EdgeInsets.all(4),
                           onPressed: () {
                             context.push('/groups/${item.group.id}');
                           },

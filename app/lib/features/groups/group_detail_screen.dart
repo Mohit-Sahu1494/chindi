@@ -177,6 +177,8 @@ class GroupDetailScreen extends ConsumerWidget {
                           Expanded(
                             child: Text(
                               isCurrent ? '${member.name} (Aap)' : member.name,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
                               style: TextStyle(
                                 color: isCurrent ? AppColors.goldLight : AppColors.textIvory,
                                 fontWeight: FontWeight.w500,
@@ -205,6 +207,8 @@ class GroupDetailScreen extends ConsumerWidget {
                       ),
                       subtitle: Text(
                         member.emailOrMobile,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
                         style: const TextStyle(color: AppColors.textDim, fontSize: 12),
                       ),
                     );

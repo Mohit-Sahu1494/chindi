@@ -29,7 +29,8 @@ class CustomBottomNav extends StatelessWidget {
       ),
       child: SafeArea(
         top: false,
-        child: SizedBox(
+        child: Container(
+          constraints: const BoxConstraints(minHeight: 60, maxHeight: 70),
           height: 64,
           child: Row(
             children: List.generate(tabs.length, (index) {
@@ -67,18 +68,21 @@ class CustomBottomNav extends StatelessWidget {
                         ),
 
                       Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 8.0),
+                        padding: const EdgeInsets.symmetric(vertical: 4.0),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
+                          mainAxisSize: MainAxisSize.min,
                           children: [
                             Icon(
                               (isSelected ? tab['activeIcon'] : tab['icon']) as IconData,
                               size: 22,
                               color: isSelected ? AppColors.gold : AppColors.textMuted,
                             ),
-                            const SizedBox(height: 3),
+                            const SizedBox(height: 2),
                             Text(
                               tab['label'] as String,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
                               style: TextStyle(
                                 fontSize: 11,
                                 fontWeight: isSelected ? FontWeight.w600 : FontWeight.w400,

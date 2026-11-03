@@ -36,7 +36,7 @@ class GoldButton extends StatelessWidget {
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(AppRadii.md),
             ),
-            padding: const EdgeInsets.symmetric(horizontal: 20),
+            padding: const EdgeInsets.symmetric(horizontal: 10),
           ),
           child: isLoading
               ? const SizedBox(
@@ -49,16 +49,20 @@ class GoldButton extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     if (icon != null) ...[
-                      Icon(icon, size: 18, color: AppColors.gold),
-                      const SizedBox(width: 8),
+                      Icon(icon, size: 16, color: AppColors.gold),
+                      const SizedBox(width: 6),
                     ],
-                    Text(
-                      label,
-                      style: const TextStyle(
-                        color: AppColors.gold,
-                        fontWeight: FontWeight.w600,
-                        fontSize: 14,
-                        letterSpacing: 0.5,
+                    Flexible(
+                      child: Text(
+                        label,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: const TextStyle(
+                          color: AppColors.gold,
+                          fontWeight: FontWeight.w600,
+                          fontSize: 13,
+                          letterSpacing: 0.3,
+                        ),
                       ),
                     ),
                   ],
@@ -91,35 +95,42 @@ class GoldButton extends StatelessWidget {
         child: InkWell(
           onTap: isDisabled ? null : onPressed,
           borderRadius: BorderRadius.circular(AppRadii.md),
-          child: Center(
-            child: isLoading
-                ? const SizedBox(
-                    width: 20,
-                    height: 20,
-                    child: CircularProgressIndicator(
-                      strokeWidth: 2,
-                      color: AppColors.textDark,
-                    ),
-                  )
-                : Row(
-                    mainAxisSize: MainAxisSize.min,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      if (icon != null) ...[
-                        Icon(icon, size: 18, color: AppColors.textDark),
-                        const SizedBox(width: 8),
-                      ],
-                      Text(
-                        label,
-                        style: const TextStyle(
-                          color: AppColors.textDark,
-                          fontWeight: FontWeight.w600,
-                          fontSize: 14,
-                          letterSpacing: 0.5,
-                        ),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10.0),
+            child: Center(
+              child: isLoading
+                  ? const SizedBox(
+                      width: 20,
+                      height: 20,
+                      child: CircularProgressIndicator(
+                        strokeWidth: 2,
+                        color: AppColors.textDark,
                       ),
-                    ],
-                  ),
+                    )
+                  : Row(
+                      mainAxisSize: MainAxisSize.min,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        if (icon != null) ...[
+                          Icon(icon, size: 16, color: AppColors.textDark),
+                          const SizedBox(width: 6),
+                        ],
+                        Flexible(
+                          child: Text(
+                            label,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: const TextStyle(
+                              color: AppColors.textDark,
+                              fontWeight: FontWeight.w600,
+                              fontSize: 13,
+                              letterSpacing: 0.3,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+            ),
           ),
         ),
       ),

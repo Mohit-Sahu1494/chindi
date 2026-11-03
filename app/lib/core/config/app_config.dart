@@ -7,13 +7,13 @@ class AppConfig {
   // Android emulator maps 10.0.2.2 to the host machine's localhost
   // iOS simulator or desktop/web uses localhost (127.0.0.1)
   static String get defaultHost {
-    if (kIsWeb) return 'https://chindi-dmbqepcgf9f3e2h3.centralindia-01.azurewebsites.net';
+    if (kIsWeb) return 'http://localhost:5000';
     try {
       if (Platform.isAndroid) {
-        return 'https://chindi-dmbqepcgf9f3e2h3.centralindia-01.azurewebsites.net';
+        return 'http://localhost:5000';
       }
     } catch (_) {}
-    return 'https://chindi-dmbqepcgf9f3e2h3.centralindia-01.azurewebsites.net';
+    return 'http://localhost:5000';
   }
 
   // Base API URL

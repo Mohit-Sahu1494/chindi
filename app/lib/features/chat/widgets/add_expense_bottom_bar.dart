@@ -250,25 +250,25 @@ class _AddExpenseBottomBarState extends State<AddExpenseBottomBar> {
           children: [
             // Amount
             SizedBox(
-              width: 120,
+              width: 105,
               child: TextFormField(
                 controller: _amountController,
                 keyboardType: const TextInputType.numberWithOptions(decimal: true),
                 style: const TextStyle(
                   color: AppColors.goldLight,
-                  fontSize: 18,
+                  fontSize: 16,
                   fontWeight: FontWeight.w700,
                 ),
                 decoration: const InputDecoration(
                   prefixText: '₹ ',
-                  prefixStyle: TextStyle(color: AppColors.gold, fontSize: 18, fontWeight: FontWeight.w700),
+                  prefixStyle: TextStyle(color: AppColors.gold, fontSize: 16, fontWeight: FontWeight.w700),
                   hintText: '0.00',
                   labelText: 'AMOUNT',
                   isDense: true,
                 ),
               ),
             ),
-            const SizedBox(width: 14),
+            const SizedBox(width: 10),
 
             // Description
             Expanded(

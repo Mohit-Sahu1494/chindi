@@ -268,13 +268,14 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                 ),
                                 const SizedBox(height: 8),
 
-                                Row(
+                                Wrap(
+                                  spacing: 16,
+                                  runSpacing: 4,
                                   children: [
                                     Text(
                                       'Kul Lena: ${CurrencyFormatter.formatPaise(summary.kulLenaBaakiPaise)}',
                                       style: const TextStyle(color: AppColors.textMuted, fontSize: 12),
                                     ),
-                                    const SizedBox(width: 16),
                                     Text(
                                       'Kul Dena: ${CurrencyFormatter.formatPaise(summary.kulDenaBaakiPaise)}',
                                       style: const TextStyle(color: AppColors.textMuted, fontSize: 12),
@@ -454,47 +455,59 @@ class _GroupCard extends StatelessWidget {
                         children: [
                           const Icon(Icons.calendar_today_outlined, size: 12, color: AppColors.textMuted),
                           const SizedBox(width: 4),
-                          Text(
-                            'Din ${summary.currentDay} / 30 • ${summary.daysLeft} din baaki',
-                            style: const TextStyle(color: AppColors.textDim, fontSize: 11),
+                          Expanded(
+                            child: Text(
+                              'Din ${summary.currentDay} / 30 • ${summary.daysLeft} din baaki',
+                              style: const TextStyle(color: AppColors.textDim, fontSize: 11),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                            ),
                           ),
                         ],
                       ),
                     ],
                   ),
                 ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    Text(
-                      CurrencyFormatter.formatPaise(net.abs()),
-                      style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                            color: isLena
-                                ? AppColors.positive
-                                : isDena
-                                    ? AppColors.negative
-                                    : AppColors.textMuted,
-                            fontWeight: FontWeight.w700,
-                          ),
-                    ),
-                    const SizedBox(height: 2),
-                    Text(
-                      isLena
-                          ? 'Aapko lena'
-                          : isDena
-                              ? 'Aapko dena'
-                              : 'Hisaab barabar',
-                      style: TextStyle(
-                        fontSize: 11,
-                        color: isLena
-                            ? AppColors.positive
-                            : isDena
-                                ? AppColors.negative
-                                : AppColors.textDim,
-                        fontWeight: FontWeight.w500,
+                const SizedBox(width: 8),
+                ConstrainedBox(
+                  constraints: const BoxConstraints(maxWidth: 120),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      Text(
+                        CurrencyFormatter.formatPaise(net.abs()),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                              color: isLena
+                                  ? AppColors.positive
+                                  : isDena
+                                      ? AppColors.negative
+                                      : AppColors.textMuted,
+                              fontWeight: FontWeight.w700,
+                            ),
                       ),
-                    ),
-                  ],
+                      const SizedBox(height: 2),
+                      Text(
+                        isLena
+                            ? 'Aapko lena'
+                            : isDena
+                                ? 'Aapko dena'
+                                : 'Hisaab barabar',
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                          fontSize: 11,
+                          color: isLena
+                              ? AppColors.positive
+                              : isDena
+                                  ? AppColors.negative
+                                  : AppColors.textDim,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
                 const SizedBox(width: 4),
                 const Icon(Icons.chevron_right, size: 18, color: AppColors.textMuted),

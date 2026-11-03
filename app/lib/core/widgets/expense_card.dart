@@ -28,6 +28,7 @@ class ExpenseCard extends StatelessWidget {
 
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 6, horizontal: 12),
+      clipBehavior: Clip.antiAlias,
       decoration: BoxDecoration(
         color: AppColors.surfaceElevated,
         borderRadius: BorderRadius.circular(AppRadii.md),
@@ -168,12 +169,16 @@ class ExpenseCard extends StatelessWidget {
                   children: [
                     const Icon(Icons.pie_chart_outline, size: 13, color: AppColors.textMuted),
                     const SizedBox(width: 6),
-                    Text(
-                      'Hisaab: ${CurrencyFormatter.formatPaise(sharePaise)} / vyakti ($participantCount log)',
-                      style: const TextStyle(
-                        color: AppColors.textMuted,
-                        fontSize: 11,
-                        fontWeight: FontWeight.w500,
+                    Expanded(
+                      child: Text(
+                        'Hisaab: ${CurrencyFormatter.formatPaise(sharePaise)} / vyakti ($participantCount log)',
+                        style: const TextStyle(
+                          color: AppColors.textMuted,
+                          fontSize: 11,
+                          fontWeight: FontWeight.w500,
+                        ),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
                       ),
                     ),
                   ],

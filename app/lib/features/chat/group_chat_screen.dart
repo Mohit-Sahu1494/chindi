@@ -186,6 +186,8 @@ class _GroupChatScreenState extends ConsumerState<GroupChatScreen> {
                       balances != null
                           ? 'Din ${balances.currentDay} / 30 • Total: ${CurrencyFormatter.formatPaise(balances.totalPaise)}'
                           : '${members.length} members',
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
                       style: const TextStyle(
                         fontSize: 11,
                         color: AppColors.goldLight,
