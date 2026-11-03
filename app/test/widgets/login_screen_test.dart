@@ -29,8 +29,9 @@ void main() {
     await tester.pump();
 
     // Form validation messages should appear
-    expect(find.text('Kripya email ya mobile darj karein'), findsOneWidget);
+    expect(find.text('Kripya email darj karein'), findsOneWidget);
     expect(find.text('Kripya password darj karein'), findsOneWidget);
+    expect(find.text('Password bhool gaye?'), findsOneWidget);
 
     // Enter email
     await tester.enterText(textFields.first, 'ramesh@hisaab.app');

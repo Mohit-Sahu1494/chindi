@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import '../features/auth/auth_provider.dart';
 import '../features/auth/login_screen.dart';
 import '../features/auth/signup_screen.dart';
+import '../features/auth/forgot_password_screen.dart';
 import '../features/groups/group_detail_screen.dart';
 import '../features/groups/groups_list_screen.dart';
 import '../features/home/home_screen.dart';
@@ -30,7 +31,7 @@ class RouterNotifier extends ChangeNotifier {
     final authState = _ref.read(authStateProvider);
     final loc = state.matchedLocation;
     final isAuthenticated = authState.isAuthenticated;
-    final isAuthRoute = loc == '/login' || loc == '/signup';
+    final isAuthRoute = loc == '/login' || loc == '/signup' || loc == '/forgot-password';
 
     // If authenticated and on login or signup screen, go to home
     if (isAuthenticated && isAuthRoute) {
@@ -65,6 +66,10 @@ final appRouterProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: '/signup',
         builder: (context, state) => const SignupScreen(),
+      ),
+      GoRoute(
+        path: '/forgot-password',
+        builder: (context, state) => const ForgotPasswordScreen(),
       ),
       GoRoute(
         path: '/',

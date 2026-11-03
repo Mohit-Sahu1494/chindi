@@ -126,11 +126,48 @@ class AuthNotifier extends StateNotifier<AuthState> {
     return str;
   }
 
-  Future<bool> login(String emailOrMobile, String password) async {
+  Future<bool> sendSignupOtp(String email) async {
+    state = state.copyWith(isLoading: true, clearError: true);
+    try {
+      await _repository.sendSignupOtp(email);
+      state = state.copyWith(isLoading: false);
+      return true;
+    } catch (e) {
+      state = state.copyWith(isLoading: false, error: _formatError(e));
+      return false;
+    }
+  }
+
+  Future<bool> signup({
+    required String name,
+    required String email,
+    required String password,
+    required String otp,
+  }) async {
+    state = state.copyWith(isLoading: true, clearError: true);
+    try {
+      final result = await _repository.signup(
+        name: name,
+        email: email,
+        password: password,
+        otp: otp,
+      );
+      _socketService.connect(result.token);
+      NotificationService().init(apiClient: _apiClient).catchError((_) {});
+      NotificationService().registerDeviceToken(_apiClient).catchError((_) {});
+      state = state.copyWith(user: result.user, isLoading: false);
+      return true;
+    } catch (e) {
+      state = state.copyWith(isLoading: false, error: _formatError(e));
+      return false;
+    }
+  }
+
+  Future<bool> login(String email, String password) async {
     state = state.copyWith(isLoading: true, clearError: true);
     try {
       final result = await _repository.login(
-        emailOrMobile: emailOrMobile,
+        email: email,
         password: password,
       );
       _socketService.connect(result.token);
@@ -144,18 +181,31 @@ class AuthNotifier extends StateNotifier<AuthState> {
     }
   }
 
-  Future<bool> signup(String name, String emailOrMobile, String password) async {
+  Future<bool> sendForgotPasswordOtp(String email) async {
     state = state.copyWith(isLoading: true, clearError: true);
     try {
-      final result = await _repository.signup(
-        name: name,
-        emailOrMobile: emailOrMobile,
-        password: password,
+      await _repository.sendForgotPasswordOtp(email);
+      state = state.copyWith(isLoading: false);
+      return true;
+    } catch (e) {
+      state = state.copyWith(isLoading: false, error: _formatError(e));
+      return false;
+    }
+  }
+
+  Future<bool> resetPassword({
+    required String email,
+    required String otp,
+    required String newPassword,
+  }) async {
+    state = state.copyWith(isLoading: true, clearError: true);
+    try {
+      await _repository.resetPassword(
+        email: email,
+        otp: otp,
+        newPassword: newPassword,
       );
-      _socketService.connect(result.token);
-      NotificationService().init(apiClient: _apiClient).catchError((_) {});
-      NotificationService().registerDeviceToken(_apiClient).catchError((_) {});
-      state = state.copyWith(user: result.user, isLoading: false);
+      state = state.copyWith(isLoading: false);
       return true;
     } catch (e) {
       state = state.copyWith(isLoading: false, error: _formatError(e));

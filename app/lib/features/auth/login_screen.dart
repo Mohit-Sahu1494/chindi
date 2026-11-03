@@ -139,7 +139,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
 
                     // Underline inputs
                     Text(
-                      'EMAIL YA MOBILE NUMBER',
+                      'EMAIL ADDRESS',
                       style: Theme.of(context).textTheme.labelSmall,
                     ),
                     TextFormField(
@@ -152,12 +152,12 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                         }
                       },
                       decoration: const InputDecoration(
-                        hintText: 'e.g. ramesh@hisaab.app ya 9876543210',
-                        prefixIcon: Icon(Icons.person_outline, size: 20, color: AppColors.gold),
+                        hintText: 'e.g. ramesh@gmail.com',
+                        prefixIcon: Icon(Icons.email_outlined, size: 20, color: AppColors.gold),
                       ),
                       validator: (value) {
                         if (value == null || value.trim().isEmpty) {
-                          return 'Kripya email ya mobile darj karein';
+                          return 'Kripya email darj karein';
                         }
                         return null;
                       },
@@ -200,7 +200,30 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                         return null;
                       },
                     ),
-                    const SizedBox(height: 36),
+                    const SizedBox(height: 10),
+
+                    // Forgot Password link
+                    Align(
+                      alignment: Alignment.centerRight,
+                      child: GestureDetector(
+                        onTap: () {
+                          ref.read(authStateProvider.notifier).clearError();
+                          context.push('/forgot-password');
+                        },
+                        child: const Padding(
+                          padding: EdgeInsets.symmetric(vertical: 4.0),
+                          child: Text(
+                            'Password bhool gaye?',
+                            style: TextStyle(
+                              color: AppColors.gold,
+                              fontSize: 13,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 26),
 
                     // Primary Button
                     GoldButton(
