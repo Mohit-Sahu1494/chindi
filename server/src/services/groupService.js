@@ -52,14 +52,48 @@ async function joinGroupByCode(inviteCode, userId) {
     m => m.toString() === userId.toString()
   );
 
+  let isNewMember = false;
   if (!isAlreadyMember) {
     group.members.push(userId);
     await group.save();
+    isNewMember = true;
   }
 
-  return await Group.findById(group._id)
+  const populated = await Group.findById(group._id)
     .populate('admin', 'name emailOrMobile')
     .populate('members', 'name emailOrMobile');
+
+  return { group: populated, isNewMember };
+}
+
+/**
+ * Adds a member directly to a group by email or mobile.
+ */
+async function addMemberToGroup(groupId, emailOrMobile) {
+  const user = await User.findOne({
+    emailOrMobile: emailOrMobile.trim().toLowerCase(),
+  });
+
+  if (!user) {
+    throw new Error('Is email ya mobile number ka koi user nahi mila.');
+  }
+
+  const group = await Group.findById(groupId);
+  if (!group) throw new Error('Group nahi mila');
+
+  const isMember = group.members.some(m => m.toString() === user._id.toString());
+  if (isMember) {
+    throw new Error('Ye user pehle se hi is group ke member hain.');
+  }
+
+  group.members.push(user._id);
+  await group.save();
+
+  const populatedGroup = await Group.findById(group._id)
+    .populate('admin', 'name emailOrMobile')
+    .populate('members', 'name emailOrMobile');
+
+  return { group: populatedGroup, addedUser: user };
 }
 
 /**
@@ -110,6 +144,7 @@ async function getUserGroups(userId) {
 module.exports = {
   createGroup,
   joinGroupByCode,
+  addMemberToGroup,
   leaveGroup,
   getGroupById,
   getUserGroups,

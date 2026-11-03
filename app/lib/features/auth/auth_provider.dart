@@ -88,6 +88,7 @@ class AuthNotifier extends StateNotifier<AuthState> {
         if (cachedUser != null) {
           state = state.copyWith(user: cachedUser, isInitialized: true);
           _socketService.connect(token);
+          NotificationService().registerDeviceToken(_apiClient).catchError((_) {});
         }
 
         // 2. Validate/refresh profile with server in background
@@ -95,6 +96,7 @@ class AuthNotifier extends StateNotifier<AuthState> {
           final freshUser = await _repository.getMe().timeout(const Duration(seconds: 3));
           _socketService.connect(token);
           state = state.copyWith(user: freshUser, isInitialized: true);
+          NotificationService().registerDeviceToken(_apiClient).catchError((_) {});
           return;
         } on ApiException catch (apiErr) {
           if (apiErr.statusCode == 401) {

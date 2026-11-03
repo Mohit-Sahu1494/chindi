@@ -6,8 +6,10 @@ const { validate } = require('../middleware/validate');
 const {
   createGroupSchema,
   joinGroupSchema,
+  addMemberSchema,
   handleCreateGroup,
   handleJoinGroup,
+  handleAddMember,
   handleGetGroups,
   handleGetGroupById,
   handleLeaveGroup,
@@ -37,6 +39,7 @@ router.get('/', handleGetGroups);
 
 // Single group member-guarded routes
 router.get('/:id', requireGroupMember, handleGetGroupById);
+router.post('/:id/members', requireGroupMember, validate(addMemberSchema), handleAddMember);
 router.post('/:id/leave', requireGroupMember, handleLeaveGroup);
 
 // Messages routes inside group

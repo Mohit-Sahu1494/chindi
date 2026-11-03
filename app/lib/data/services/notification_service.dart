@@ -9,6 +9,11 @@ import '../api/api_client.dart';
 
 @pragma('vm:entry-point')
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  try {
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
+  } catch (_) {}
   debugPrint('[FCM Background] Handling background message: ${message.messageId}');
 }
 
@@ -146,7 +151,9 @@ class NotificationService {
         if (initialMessage != null) {
           final groupId = initialMessage.data['groupId']?.toString();
           if (groupId != null && onNotificationTap != null) {
-            onNotificationTap!(groupId);
+            Future.delayed(const Duration(milliseconds: 600), () {
+              onNotificationTap!(groupId);
+            });
           }
         }
 

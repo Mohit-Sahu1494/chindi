@@ -32,6 +32,27 @@ function errorHandler(err, req, res, next) {
     return sendError(res, 'Invalid or expired token', 401);
   }
 
+  // Database Connection & Timeout Errors
+  if (err.name === 'MongooseError' && err.message && err.message.includes('buffering timed out')) {
+    return sendError(
+      res,
+      'Database connection timeout ho gaya. Kripya internet connection check karein aur dobara try karein.',
+      503
+    );
+  }
+
+  if (
+    err.name === 'MongoServerSelectionError' ||
+    err.name === 'MongoNetworkError' ||
+    err.name === 'MongoTimeoutError'
+  ) {
+    return sendError(
+      res,
+      'Database server se sampark nahi ho pa raha hai. Kripya kuch second baad punah koshish karein.',
+      503
+    );
+  }
+
   // Default server error
   const statusCode = err.statusCode || 500;
   const message = err.message || 'Internal Server Error';

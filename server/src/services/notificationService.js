@@ -110,6 +110,28 @@ async function sendGroupPushNotification({ groupId, title, body, data = {}, excl
           click_action: 'FLUTTER_NOTIFICATION_CLICK',
           ...data,
         },
+        android: {
+          priority: 'high',
+          notification: {
+            channelId: 'chindi_alerts',
+            priority: 'max',
+            defaultSound: true,
+            defaultVibrateTimings: true,
+            icon: 'ic_launcher',
+          },
+        },
+        apns: {
+          headers: {
+            'apns-priority': '10',
+          },
+          payload: {
+            aps: {
+              sound: 'default',
+              badge: 1,
+              contentAvailable: true,
+            },
+          },
+        },
         tokens: tokens,
       };
 
@@ -139,9 +161,81 @@ async function sendGroupPushNotification({ groupId, title, body, data = {}, excl
   }
 }
 
+/**
+ * Sends a push notification to a specific single user (e.g. when added to a group).
+ */
+async function sendUserPushNotification({ userId, title, body, data = {} }) {
+  try {
+    const user = await User.findById(userId).select('fcmTokens name');
+    if (!user || !Array.isArray(user.fcmTokens) || user.fcmTokens.length === 0) return;
+
+    const tokens = user.fcmTokens.filter(t => typeof t === 'string' && t.trim().length > 0);
+    if (tokens.length === 0) return;
+
+    if (isFirebaseInitialized && admin) {
+      const message = {
+        notification: {
+          title: title || 'Chindi Alert',
+          body: body,
+        },
+        data: {
+          click_action: 'FLUTTER_NOTIFICATION_CLICK',
+          ...data,
+        },
+        android: {
+          priority: 'high',
+          notification: {
+            channelId: 'chindi_alerts',
+            priority: 'max',
+            defaultSound: true,
+            defaultVibrateTimings: true,
+            icon: 'ic_launcher',
+          },
+        },
+        apns: {
+          headers: {
+            'apns-priority': '10',
+          },
+          payload: {
+            aps: {
+              sound: 'default',
+              badge: 1,
+              contentAvailable: true,
+            },
+          },
+        },
+        tokens: tokens,
+      };
+
+      const response = await admin.messaging().sendEachForMulticast(message);
+      console.log(`[FCM] Sent user notification to ${response.successCount} devices (${response.failureCount} failed)`);
+
+      if (response.failureCount > 0) {
+        response.responses.forEach((resp, idx) => {
+          if (!resp.success && resp.error) {
+            const code = resp.error.code;
+            if (
+              code === 'messaging/invalid-registration-token' ||
+              code === 'messaging/registration-token-not-registered'
+            ) {
+              const staleToken = tokens[idx];
+              User.updateMany({ fcmTokens: staleToken }, { $pull: { fcmTokens: staleToken } }).exec();
+            }
+          }
+        });
+      }
+    } else {
+      console.log(`[FCM Notification Simulated] To User: ${user.name} | Title: "${title}" | Body: "${body}"`);
+    }
+  } catch (error) {
+    console.error('[FCM] Error sending user push notification:', error.message);
+  }
+}
+
 module.exports = {
   initFirebase,
   registerFCMToken,
   removeFCMToken,
   sendGroupPushNotification,
+  sendUserPushNotification,
 };

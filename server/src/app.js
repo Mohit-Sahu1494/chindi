@@ -4,6 +4,7 @@ const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
 const routes = require('./routes');
 const { errorHandler } = require('./middleware/errorHandler');
+const { checkDbConnection } = require('./middleware/checkDb');
 const { corsOrigin } = require('./config/env');
 
 const app = express();
@@ -33,6 +34,9 @@ app.use('/api', limiter);
 // Body parsers
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+// Check Database connection before executing API requests
+app.use('/api', checkDbConnection);
 
 // API routes
 app.use('/api', routes);
